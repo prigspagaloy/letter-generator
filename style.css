@@ -190,3 +190,25 @@ WHAT YOU GET SECTION
 .icon-description > p {
     color: #52575e;
 }
+
+/******
+FOOTER
+*******/
+
+footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    gap: 1rem;
+    color: #fff;
+    background-color: #24272e;
+}
+
+footer > div:nth-child(1) {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
