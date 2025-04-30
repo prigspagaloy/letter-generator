@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Letter Generator</title>
+    <script src="https://unpkg.com/docx"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        #letter-output {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap; /* Preserve formatting */
+        }
+    </style>
+</head>
+<body>
+    <h1>Letter Generator</h1>
+
+    <div class="input-group">
+        <label for="recipient">Recipient Name:</label>
+        <input type="text" id="recipient" placeholder="Enter recipient's name">
+    </div>
+
+    <div class="input-group">
+        <label for="sender">Your Name:</label>
+        <input type="text" id="sender" placeholder="Enter your name">
+    </div>
+
+    <div class="input-group">
+        <label for="body">Letter Body:</label>
+        <textarea id="body" rows="5" placeholder="Enter the main content of your letter"></textarea>
+    </div>
+
+    <button onclick="generateLetter()">Generate Letter</button>
+    <!-- <button onclick="downloadLetter()">Download Letter</button> -->
+    <button id="generate">Generate Word Document</button>
+
+    <h2>Generated Letter:</h2>
+    <div id="letter-output">
+        </div>
+
+    <script>
+        let generatedLetterContent = ""; // Store the generated letter
+        let dateFormat = "";
+        let recipientFormat = '';
+        let paragraphFormat = '';
+        let endingFormat = '';
+        let lastName = '';
+
+        function generateLetter() {
+            const recipient = document.getElementById('recipient').value.trim();
+            const sender = document.getElementById('sender').value.trim();
+            const body = document.getElementById('body').value.trim();
+            const letterOutput = document.getElementById('letter-output');
+            const today = new Date();
+            const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+
+            if (!recipient || !sender || !body) {
+                letterOutput.textContent = "Please fill in all the fields.";
+                generatedLetterContent = ""; // Clear previous content
+                return;
+            }
+
+            const letter = `Date: ${formattedDate}\n\nDear ${recipient},\n\n${body}\n\nSincerely,\n${sender}`;
+            dateFormat = `Date: ${formattedDate}`;
+            recipientFormat = `Dear ${recipient},`;
+            paragraphFormat = body;
+            endingFormat = 'Sincerely,';
+            lastName = sender;
+            letterOutput.textContent = letter;
+            generatedLetterContent = letter; // Store the generated letter
+        }
+
+        // function downloadLetter() {
+        //     if (!generatedLetterContent) {
+        //         alert("Please generate a letter first.");
+        //         return;
+        //     }
+
+        //     const filename = "docflow.txt";
+        //     const blob = new Blob([generatedLetterContent], { type: "text/plain" });
+        //     const url = URL.createObjectURL(blob);
+        //     const a = document.createElement('a');
+        //     a.href = url;
+        //     a.download = filename;
+        //     document.body.appendChild(a);
+        //     a.click();
+        //     document.body.removeChild(a);
+        //     URL.revokeObjectURL(url);
+        // }
+
+        document.getElementById("generate").addEventListener("click", function () {
+            const {
+                Document,
+                Header,
+                Footer,
+                Packer,
+                Paragraph,
+                TextRun,
+                SectionType,
+                FrameAnchorType,
+                HorizontalPositionAlign,
+                VerticalPositionAlign,
+                
+            } = docx;
+ 
+            try {
+                const doc = new Document({
+    sections: [{
+        properties: {
+            type: SectionType.CONTINUOUS,
+        },
+        children: [
+        new Paragraph({
+                children: [new TextRun(dateFormat)],
+            }),
+            new Paragraph({
+                children: [new TextRun({text: recipientFormat, break: 2})],
+            }),
+            new Paragraph({
+                children: [new TextRun({text: paragraphFormat, break: 2})],
+            }),
+            new Paragraph({
+                children: [new TextRun({text: endingFormat, break: 2})],
+            }),
+            new Paragraph({
+                children: [new TextRun(lastName)],
+            }),
+        ],
+    }],
+});
+
+                // const doc = new Document({
+                //     sections: [
+                //         {
+                //             properties: {
+                //             type: SectionType.CONTINUOUS,
+                //         },
+                //         children: [
+                //             new Paragraph({
+                //             children: [new TextRun(dateFormat)],
+                //             }),
+                //         ],
+                //         },
+                //         {
+                //         children: [
+                //             new Paragraph({
+                //             children: [new TextRun(paragraphFormat)],
+                //             }),
+                //         ],
+                //         },
+                //         // Add more sections as needed
+                //     ],
+                // });
+ 
+                Packer.toBlob(doc).then((blob) => {
+                    saveAs(blob, "docflow.docx");
+                }).catch((error) => {
+                    console.error("Error generating the document:", error);
+                });
+            } catch (error) {
+                console.error("Error initializing the document:", error);
+            }
+        });
+    </script>
+</body>
+</html>
