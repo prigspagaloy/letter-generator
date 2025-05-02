@@ -23,7 +23,7 @@
                 <li class="navbar-menu"><a href="scm-letters.html">Supply Chain Management Letters</a></li>
             </ul>
             <div class="navbar-btns">
-                <button class="login-btn"><a href="../login.php">Login</a></button>
+                <button class="login-btn"><a href="../login.html">Login</a></button>
             </div>
         </nav>
     </header>

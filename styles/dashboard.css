@@ -50,7 +50,8 @@
     padding: 0 0 2rem 0;
 }
 
-#quick-actions > h3 {
+#quick-actions > h3,
+#content-container > h3 {
     padding-bottom: 1rem;
 }
 

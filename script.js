@@ -37,7 +37,7 @@ const urlRoutes = {
 
 const urlPath = window.location.pathname;
 
-if (urlPath == "/letter-generator/pages/dashboard.html") {
+if (urlPath == "/letter-generator/pages/dashboard.php") {
 		fetchHtmlContent("dashboard-content.html")
 	}
 

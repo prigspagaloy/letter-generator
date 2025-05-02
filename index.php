@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+// if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+    // $userId = $_SESSION["id"];
+    // $username = $_SESSION["username"];
+    // Do nothing if the user is logged in
+
+    // echo "Welcome, " . htmlspecialchars($username) . "! You are logged in.";
+// } else {
+//     header("location: index.php");
+//     exit;
+// }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +38,13 @@
                     <li class="navbar-menu"><a href="pages/scm-letters.html">Supply Chain Management Letters</a></li>
                 </ul>
                 <div class="navbar-btns">
-                    <button class="login-btn"><a href="login.php">Login</a></button>
+                    <?php
+                        if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                            echo '<form action="php/logout.php" method="post"><button type="submit" class="logout-btn">Logout</button></form>';
+                        } else {
+                            echo '<button class="login-btn"><a href="login.html">Login</a></button>';
+                        }
+                    ?>
                 </div>
             </nav>
         </header>
@@ -35,7 +56,7 @@
                 </div>
                 <h1 class="introduction-text">Streamlining Your Correspondence: Welcome to Our Letter Generation Platform</h1>
                 <p class="introduction-description">This service has been developed to streamline the process of creating well-structured and effective written correspondence. Whether your needs encompass professional communications, formal inquiries, or personalized correspondence requiring a refined tone, our generator offers a suite of tools to facilitate the efficient production of tailored documents. We invite you to explore the features designed to assist you in crafting impactful and articulate letters. Please proceed to begin composing your document.</p>
-                <a href="pages/dashboard.html"><button class="build-cv-btn">Create New Letter</button></a>
+                <a href="pages/dashboard.php"><button class="build-cv-btn">Create New Letter</button></a>
             </section>
         </div>
         <section id="what-you-get">
