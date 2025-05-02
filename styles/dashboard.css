@@ -98,7 +98,19 @@
     gap: 1rem;
 }
 
-.letter-categories-btn > button {
+.letter-categories-btn > button{
+    width: 100%;
+    padding: 0.5rem 2rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.letter-categories-btn > a {
+    width: 100%;
+}
+
+.letter-categories-btn > a > button {
     width: 100%;
     padding: 0.5rem 2rem;
     border: none;
