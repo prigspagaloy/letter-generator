@@ -1,18 +1,3 @@
-<?php
-session_start();
-
-// if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-    // $userId = $_SESSION["id"];
-    // $username = $_SESSION["username"];
-    // Do nothing if the user is logged in
-
-    // echo "Welcome, " . htmlspecialchars($username) . "! You are logged in.";
-// } else {
-//     header("location: index.php");
-//     exit;
-// }
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -38,13 +23,6 @@ session_start();
                     <li class="navbar-menu"><a href="pages/scm-letters.html">Supply Chain Management Letters</a></li>
                 </ul>
                 <div class="navbar-btns">
-                    <?php
-                        if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
-                            echo '<form action="php/logout.php" method="post"><button type="submit" class="logout-btn">Logout</button></form>';
-                        } else {
-                            echo '<button class="login-btn"><a href="login.html">Login</a></button>';
-                        }
-                    ?>
                 </div>
             </nav>
         </header>
